@@ -1,0 +1,6 @@
+window.addEventListener("load",(t=>{window.parent.postMessage("","*")}),!1),window.addEventListener("message",(()=>{let t=event.origin
+if("https://algo.monster"===t||"https://staging.algo.monster"===t)switch(event.data){case"light":document.body.classList=["light"]
+break
+case"dark":document.body.classList=["dark"]}}),!1)
+
+//# sourceMappingURL=98ec73c1926f0d5d193951d4ff1673f5a651a2eb.map?__ws=discuss.algo.monster

@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<!-- saved from url=(0055)https://discuss.algo.monster/embed/comments?topic_id=80 -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, user-scalable=yes, viewport-fit=cover">
+    <link href="./embed_b0f384e8b5e4305ef65b46353e8e75d28f7707da.css" media="all" rel="stylesheet" data-target="embed">
+      <link href="./embedded_theme_1_56345a8e2a9dff839ed3c99410b26c352bcf4675.css" media="all" rel="stylesheet" data-target="embedded_theme" data-theme-id="1" data-theme-name="default">
+    <link rel="preload" href="./break_string-cc617154cd957804f2f6a1f3bc68258c9cdca3d4b9a322bf777d145fed04790e.br.js.download" as="script">
+<script defer="" src="./break_string-cc617154cd957804f2f6a1f3bc68258c9cdca3d4b9a322bf777d145fed04790e.br.js.download"></script>
+
+
+      <title>Insert Into BST - Depth First Search / Binary Search Tree - Problems - AlgoMonster</title>
+
+    <meta id="data-embedded" data-referer="https://algo.monster/problems/insert_into_bst">
+    <link rel="preload" href="./embed-application-8270400414673460795cb4d805b7522e5c3319f104c7c2f0d9505948abcbf2cc.br.js.download" as="script">
+<script defer="" src="./embed-application-8270400414673460795cb4d805b7522e5c3319f104c7c2f0d9505948abcbf2cc.br.js.download"></script>
+
+
+    
+  </head>
+  <body class="dark">
+    <link rel="preload" href="./98ec73c1926f0d5d193951d4ff1673f5a651a2eb.js.download" as="script">
+<script defer="" src="./98ec73c1926f0d5d193951d4ff1673f5a651a2eb.js.download" data-theme-id="1"></script>
+
+    <header class="discourse" data-embed-state="loaded">
+    <a class="button" target="_blank" href="https://discuss.algo.monster/t/insert-into-bst-depth-first-search-binary-search-tree/80/2">Continue Discussion</a>
+  <span class="replies">14 replies</span>
+</header>
+
+    <article class="post" id="post-334">
+      <a title="November 13, 2021  8:24am" class="post-date" target="_blank" href="https://discuss.algo.monster/t/insert-into-bst-depth-first-search-binary-search-tree/80/2">Nov '21</a>
+
+      <div class="author">
+        <a href="https://discuss.algo.monster/u/annoyed" target="_blank"><img src="./45.png" alt=""></a>
+      </div>
+      <div class="cooked">
+        <h3 class="username">
+          <a href="https://discuss.algo.monster/u/annoyed" target="_blank" class="">annoyed</a>
+        </h3>
+        <p>now you have a working golang example…</p>
+<p>package main</p>
+<p>import (<br>
+“bufio”<br>
+“fmt”<br>
+“os”<br>
+“strconv”<br>
+“strings”<br>
+)</p>
+<p>type Node struct {<br>
+val int<br>
+left *Node<br>
+right *Node<br>
+}</p>
+<p>func insertBst(root *Node,value int) *Node  {</p>
+<pre><code>if root == nil {
+	root = &amp;Node{value,nil,nil}
+	return root
+}
+return dfs(root,value)
+</code></pre>
+<p>}</p>
+<p>func dfs(tree *Node,value int) *Node {</p>
+<pre><code>if tree.val == value {
+	return tree //value already exists
+}
+switch value &gt; tree.val {
+case true :                 // we look to the right
+	if tree.right == nil { // if this is a leaf node we can add the new node here
+		tree.right = &amp;Node{value,nil,nil}
+		return tree
+	} else {dfs(tree.right,value)}
+case false :               // salvation is on the left 8-)
+	if tree.left == nil {
+		tree.left = &amp;Node{value,nil,nil}
+		return tree
+	} else {dfs(tree.left,value)}
+}
+return tree
+</code></pre>
+<p>}</p>
+<p>func ser(tree *Node) string {</p>
+<pre><code>var serTree string
+serTree=dfsSer(tree)
+return serTree
+</code></pre>
+<p>}<br>
+func dfsSer(tree *Node) string {</p>
+<pre><code>if tree == nil {
+	return "x "
+}
+return fmt.Sprintf("%d ",tree.val) + dfsSer(tree.left) + dfsSer(tree.right)
+</code></pre>
+<p>}</p>
+<p>func buildTree(nodes []string, pos *int) *Node {<br>
+val := nodes[*pos]<br>
+*pos++<br>
+if val == “x” {<br>
+return nil<br>
+}<br>
+v, _ := strconv.Atoi(val)<br>
+left := buildTree(nodes, pos)<br>
+right := buildTree(nodes, pos)<br>
+return &amp;Node{v, left, right}<br>
+}</p>
+<p>func splitWords(s string) []string {<br>
+if s == “” {<br>
+return []string{}<br>
+}<br>
+return strings.Split(s, " ")<br>
+}</p>
+<p>func main() {<br>
+scanner := bufio.NewScanner(os.Stdin)<br>
+scanner.Scan()<br>
+rootIdx := 0<br>
+root := buildTree(splitWords(scanner.Text()), &amp;rootIdx)<br>
+scanner.Scan()<br>
+value,_ := strconv.Atoi(scanner.Text())<br>
+res := insertBst(root,value)<br>
+out :=ser(res)<br>
+fmt.Println(out)<br>
+}</p>
+
+            <a data-link-to-post="354" class="post-replies button" target="_blank" href="https://discuss.algo.monster/t/insert-into-bst-depth-first-search-binary-search-tree/80/2">1 reply</a>
+      </div>
+    </article>
+    <article class="post" id="post-354">
+      <a title="November 18, 2021  4:17am" class="post-date" target="_blank" href="https://discuss.algo.monster/t/insert-into-bst-depth-first-search-binary-search-tree/80/3">Nov '21</a>
+        <a data-link-to-post="334" class="in-reply-to" target="_blank" href="https://discuss.algo.monster/t/insert-into-bst-depth-first-search-binary-search-tree/80/2">▶ annoyed</a>
+
+      <div class="author">
+        <a href="https://discuss.algo.monster/u/AnotherAnnoyedGolang" target="_blank"><img src="./45(1).png" alt=""></a>
+      </div>
+      <div class="cooked">
+        <h3 class="username">
+          <a href="https://discuss.algo.monster/u/AnotherAnnoyedGolang" target="_blank" class="">Another<wbr>​Annoyed<wbr>​Golang</a>
+        </h3>
+        <p>Yup - they consistently have completely missing or (even worse IMO) incorrect golang code. At least if it’s missing I’m not pulling my hair trying to figure out why MY code isn’t working.</p>
+
+      </div>
+    </article>
+    <article class="post" id="post-512">
+      <a title="January  2, 2022 12:01pm" class="post-date" target="_blank" href="https://discuss.algo.monster/t/insert-into-bst-depth-first-search-binary-search-tree/80/4">Jan '22</a>
+
+      <div class="author">
+        <a href="https://discuss.algo.monster/u/hello" target="_blank"><img src="./45(2).png" alt=""></a>
+      </div>
+      <div class="cooked">
+        <h3 class="username">
+          <a href="https://discuss.algo.monster/u/hello" target="_blank" class="">hello</a>
+        </h3>
+        <p>Can you add the array representation of the BST used in the Explanation?</p>
+
+            <a data-link-to-post="550" class="post-replies button" target="_blank" href="https://discuss.algo.monster/t/insert-into-bst-depth-first-search-binary-search-tree/80/4">1 reply</a>
+      </div>
+    </article>
+    <article class="post" id="post-550">
+      <a title="January 10, 2022  9:59am" class="post-date" target="_blank" href="https://discuss.algo.monster/t/insert-into-bst-depth-first-search-binary-search-tree/80/5">Jan '22</a>
+        <a data-link-to-post="512" class="in-reply-to" target="_blank" href="https://discuss.algo.monster/t/insert-into-bst-depth-first-search-binary-search-tree/80/4">▶ hello</a>
+
+      <div class="author">
+        <a href="https://discuss.algo.monster/u/am1" target="_blank"><img src="./45(3).png" alt=""></a>
+      </div>
+      <div class="cooked">
+        <h3 class="username">
+          <a href="https://discuss.algo.monster/u/am1" target="_blank" class="">am<wbr>​1</a>
+        </h3>
+        <p>you can see it by in ‘Custom Input’<br>
+8 4 2 1 x x 3 x x 6 x x 12 10 x x 14 x 15 x x</p>
+
+      </div>
+    </article>
+    <article class="post" id="post-1176">
+      <a title="May 10, 2022  5:08am" class="post-date" target="_blank" href="https://discuss.algo.monster/t/insert-into-bst-depth-first-search-binary-search-tree/80/6">May '22</a>
+
+      <div class="author">
+        <a href="https://discuss.algo.monster/u/Mark" target="_blank"><img src="./45(4).png" alt=""></a>
+      </div>
+      <div class="cooked">
+        <h3 class="username">
+          <a href="https://discuss.algo.monster/u/Mark" target="_blank" class="">Mark</a>
+        </h3>
+        <p>The base C# code fails to compile.  Can someone fix it please?  Thanks.</p>
+
+            <a data-link-to-post="1205" class="post-replies button" target="_blank" href="https://discuss.algo.monster/t/insert-into-bst-depth-first-search-binary-search-tree/80/6">1 reply</a>
+      </div>
+    </article>
+    <article class="post" id="post-1205">
+      <a title="May 11, 2022  9:02pm" class="post-date" target="_blank" href="https://discuss.algo.monster/t/insert-into-bst-depth-first-search-binary-search-tree/80/7">May '22</a>
+        <a data-link-to-post="1176" class="in-reply-to" target="_blank" href="https://discuss.algo.monster/t/insert-into-bst-depth-first-search-binary-search-tree/80/6">▶ Mark</a>
+
+      <div class="author">
+        <a href="https://discuss.algo.monster/u/Vlad1" target="_blank"><img src="./45(5).png" alt=""></a>
+      </div>
+      <div class="cooked">
+        <h3 class="username">
+          <a href="https://discuss.algo.monster/u/Vlad1" target="_blank" class="">Vlad<wbr>​1</a>
+        </h3>
+        <p>Yes, line 67 Add method start with capital letter.<br>
+But anyway there is smth wrong with test check. It just call ToString on result which in case of Node just type name and can’t compare it with string representation of a tree.<br>
+Your Output<br>
+Solution+Node`1[System.Int32]<br>
+Expected Output<br>
+8 4 2 1 x x 3 x x 6 x 7 x x 12 10 x x 14 x 15 x x</p>
+
+            <a data-link-to-post="1422" class="post-replies button" target="_blank" href="https://discuss.algo.monster/t/insert-into-bst-depth-first-search-binary-search-tree/80/7">1 reply</a>
+      </div>
+    </article>
+    <article class="post" id="post-1359">
+      <a title="May 25, 2022  4:23am" class="post-date" target="_blank" href="https://discuss.algo.monster/t/insert-into-bst-depth-first-search-binary-search-tree/80/8">May '22</a>
+
+      <div class="author">
+        <a href="https://discuss.algo.monster/u/kopi22" target="_blank"><img src="./45(6).png" alt=""></a>
+      </div>
+      <div class="cooked">
+        <h3 class="username">
+          <a href="https://discuss.algo.monster/u/kopi22" target="_blank" class="">kopi<wbr>​22</a>
+        </h3>
+        <p>might be good to provide iterative approaches/solutions as well</p>
+<p>here is mine:</p>
+<p>def insert_bst(bst: Node, val: int) → Node:<br>
+if not bst:<br>
+return Node(val)</p>
+<pre><code>curr = parent = bst
+while curr:
+    parent = curr
+    if val &lt; curr.val:
+        curr = curr.left
+    elif val &gt; curr.val:
+        curr = curr.right
+    else:
+        return bst
+
+if val &lt; parent.val:
+    parent.left = Node(val)
+else:
+    parent.right = Node(val)
+</code></pre>
+
+      </div>
+    </article>
+    <article class="post" id="post-1422">
+      <a title="May 31, 2022  4:00am" class="post-date" target="_blank" href="https://discuss.algo.monster/t/insert-into-bst-depth-first-search-binary-search-tree/80/9">May '22</a>
+        <a data-link-to-post="1205" class="in-reply-to" target="_blank" href="https://discuss.algo.monster/t/insert-into-bst-depth-first-search-binary-search-tree/80/7">▶ Vlad1</a>
+
+      <div class="author">
+        <a href="https://discuss.algo.monster/u/Flushy" target="_blank"><img src="./45(7).png" alt=""></a>
+      </div>
+      <div class="cooked">
+        <h3 class="username">
+          <a href="https://discuss.algo.monster/u/Flushy" target="_blank" class="">Flushy</a>
+        </h3>
+        <p>For C#, the last line in Main() should be:<br>
+<code>Console.WriteLine(String.Join(' ', resArr));</code></p>
+<p>Not<br>
+<code>Console.WriteLine(String.Join(' ', res));</code></p>
+
+      </div>
+    </article>
+    <article class="post" id="post-1890">
+      <a title="July 15, 2022 11:50pm" class="post-date" target="_blank" href="https://discuss.algo.monster/t/insert-into-bst-depth-first-search-binary-search-tree/80/10">Jul '22</a>
+
+      <div class="author">
+        <a href="https://discuss.algo.monster/u/cdr" target="_blank"><img src="./45(8).png" alt=""></a>
+      </div>
+      <div class="cooked">
+        <h3 class="username">
+          <a href="https://discuss.algo.monster/u/cdr" target="_blank" class="">cdr</a>
+        </h3>
+        <p>Can someone explain why this doesnt work?</p>
+<p>function insertBst(bst, val) {<br>
+if(!root) return new TreeNode(val)</p>
+<pre><code>if(val &lt; root.val) root.left = insertBst(root.left,val)
+else root.right = insertBst(root.right,val)
+
+return root
+</code></pre>
+<p>}</p>
+
+            <a class="post-replies button" target="_blank" href="https://discuss.algo.monster/t/insert-into-bst-depth-first-search-binary-search-tree/80/10">2 replies</a>
+      </div>
+    </article>
+    <article class="post" id="post-2004">
+      <a title="July 29, 2022  8:22am" class="post-date" target="_blank" href="https://discuss.algo.monster/t/insert-into-bst-depth-first-search-binary-search-tree/80/11">Jul '22</a>
+        <a data-link-to-post="1890" class="in-reply-to" target="_blank" href="https://discuss.algo.monster/t/insert-into-bst-depth-first-search-binary-search-tree/80/10">▶ cdr</a>
+
+      <div class="author">
+        <a href="https://discuss.algo.monster/u/smito" target="_blank"><img src="./45(9).png" alt=""></a>
+      </div>
+      <div class="cooked">
+        <h3 class="username">
+          <a href="https://discuss.algo.monster/u/smito" target="_blank" class="">smito</a>
+        </h3>
+        <p>Hi cdr,</p>
+<p>You need an “else if” instead of an “else” so that the val == root.val case falls through to the return statement.</p>
+
+      </div>
+    </article>
+    <article class="post" id="post-2236">
+      <a title="August 28, 2022 11:21pm" class="post-date" target="_blank" href="https://discuss.algo.monster/t/insert-into-bst-depth-first-search-binary-search-tree/80/12">Aug '22</a>
+        <a data-link-to-post="1890" class="in-reply-to" target="_blank" href="https://discuss.algo.monster/t/insert-into-bst-depth-first-search-binary-search-tree/80/10">▶ cdr</a>
+
+      <div class="author">
+        <a href="https://discuss.algo.monster/u/kc1" target="_blank"><img src="./45(10).png" alt=""></a>
+      </div>
+      <div class="cooked">
+        <h3 class="username">
+          <a href="https://discuss.algo.monster/u/kc1" target="_blank" class="">kc<wbr>​1</a>
+        </h3>
+        <p>the problem ask to return the whole BST, so your code only return undefine since ELSE in your code</p>
+
+      </div>
+    </article>
+    <article class="post" id="post-2374">
+      <a title="September 11, 2022  9:35pm" class="post-date" target="_blank" href="https://discuss.algo.monster/t/insert-into-bst-depth-first-search-binary-search-tree/80/13">Sep '22</a>
+
+      <div class="author">
+        <a href="https://discuss.algo.monster/u/Rob" target="_blank"><img src="./45(11).png" alt=""></a>
+      </div>
+      <div class="cooked">
+        <h3 class="username">
+          <a href="https://discuss.algo.monster/u/Rob" target="_blank" class="">Rob</a>
+        </h3>
+        <p>Structured Programming JS Solution:</p>
+<pre data-code-wrap="js"><code class="lang-nohighlight">function insertBst(bst, val) {
+    let result = bst;
+    
+    if (result) {
+        if (result.val &lt; val) {
+            result.right = insertBst(result.right, val);
+        } else if (result.val &gt; val) {
+            result.left = insertBst(result.left, val);
+        }
+    } else {
+        result = new Node(val);
+    }
+    
+    return result;
+}
+</code></pre>
+
+      </div>
+    </article>
+    <article class="post" id="post-2462">
+      <a title="September 23, 2022  2:25pm" class="post-date" target="_blank" href="https://discuss.algo.monster/t/insert-into-bst-depth-first-search-binary-search-tree/80/14">Sep '22</a>
+
+      <div class="author">
+        <a href="https://discuss.algo.monster/u/jon" target="_blank"><img src="./45(12).png" alt=""></a>
+      </div>
+      <div class="cooked">
+        <h3 class="username">
+          <a href="https://discuss.algo.monster/u/jon" target="_blank" class="">jon</a>
+        </h3>
+        <p>why return bst</p>
+
+            <a data-link-to-post="2899" class="post-replies button" target="_blank" href="https://discuss.algo.monster/t/insert-into-bst-depth-first-search-binary-search-tree/80/14">1 reply</a>
+      </div>
+    </article>
+    <article class="post" id="post-2899">
+      <a title="December 22, 2022 11:21am" class="post-date" target="_blank" href="https://discuss.algo.monster/t/insert-into-bst-depth-first-search-binary-search-tree/80/15">Dec '22</a>
+        <a data-link-to-post="2462" class="in-reply-to" target="_blank" href="https://discuss.algo.monster/t/insert-into-bst-depth-first-search-binary-search-tree/80/14">▶ jon</a>
+
+      <div class="author">
+        <a href="https://discuss.algo.monster/u/mod1" target="_blank"><img src="./45(13).png" alt=""></a>
+      </div>
+      <div class="cooked">
+        <h3 class="username">
+          <a href="https://discuss.algo.monster/u/mod1" target="_blank" class="">mod<wbr>​1</a>
+        </h3>
+        <p>the question asks us to return “a valid BST with the inserted number, or the same BST if the number already exist”</p>
+
+      </div>
+    </article>
+
+    <footer class="clearfix">
+      <a target="_blank" href="https://discuss.algo.monster/"><img class="logo" src="https://discuss.algo.monster/embed/comments?topic_id=80"></a>
+      <a class="button" target="_blank" href="https://discuss.algo.monster/t/insert-into-bst-depth-first-search-binary-search-tree/80/15">Continue Discussion</a>
+    </footer>
+    <div class="clearfix"></div>
+
+
+  
+
+</body></html>
